@@ -1,8 +1,17 @@
 import React from 'react'
+import {Link } from 'react-router-dom'
 import ColorBox from './ColorBox'
-import { Collapse } from '@material-ui/core';
+import Navbar from './Navbar'
+import PaletteFooter from './PaletteFooter'
+import {usePalleteStyles} from './useAllStyles'
 function SingleColorPalette(props) {
     //console.log(props.palette.colors)
+    const [ format, setFormat ] = React.useState('hex');
+    const classes =usePalleteStyles()
+    function changeFormat(val) {
+		setFormat(val);
+		console.log(format, 'HAV', val);
+	}
     function gatherShades(pal,filterColor){
 let shades =[]
 let allColors = pal.colors
@@ -15,16 +24,23 @@ return(shades.slice(1))
     }
   const shades=gatherShades(props.palette,props.colorId)
    const colorBox = shades.map(col=><ColorBox
-   key ={col.id}
+   key ={col.name}
    name = {col.name}
-  background={col.hex}
-   showLink = {false}
+  background={col[format]}
+   showingFullPalette = {false}
 
    />)
     return (
-        <div className = 'Palette'>
-           <h1>Single Color Palette</h1>
-           <div className ='Palette-colors'>{colorBox}</div>
+        <div className = {classes.Pallete}>
+            <Navbar handleChange = {changeFormat} showingAllColors={false}/>
+           
+           <div className ={classes.colors}>
+           {colorBox}
+           <div className ={classes.goBack}>
+               <Link to={`/palette/${props.palette.id}`} className = 'back-button'>Go Back</Link>
+           </div>
+           </div>
+           <PaletteFooter paletteName ={props.palette.paletteName} emoji ={props.palette.emoji}/>
         </div>
     )
 }

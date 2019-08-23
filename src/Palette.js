@@ -1,14 +1,16 @@
 import React from 'react';
 import ColorBox from './ColorBox';
 import Navbar from './Navbar';
+import PaletteFooter from './PaletteFooter'
 import PaletteContext from './PaletteContext';
+import {usePalleteStyles} from './useAllStyles'
 //import MainContext from './MainContext'
-import './Palette.css';
+// import './Palette.css';
 
 function Palette(props) {
 	const [ level, setLevel ] = React.useState(500);
 	const [ format, setFormat ] = React.useState('hex');
-	console.log('pal', props);
+const classes = usePalleteStyles()
 	//const pContext =React.useContext(MainContext)
 	const colorBoxes = props.palette.colors[level].map((color) => (
 		<ColorBox background={color[format]}
@@ -16,7 +18,7 @@ function Palette(props) {
 		  key={color.id} 
 		  id={color.id} 
 		  palletId ={props.palette.id}
-		  showLink ={true}/>
+		  showingFullPalette/>
 	));
 
 	function changeLevel(newLevel) {
@@ -29,14 +31,12 @@ function Palette(props) {
 	console.log(format);
 	return (
 		<PaletteContext.Provider value={{ level, changeLevel, changeFormat }}>
-			<div className="Palette">
-				<Navbar />
+			<div className={classes.Pallete}>
+				<Navbar level={level} changeLevel ={changeLevel} handleChange = {changeFormat} showingAllColors/>
 
-				<div className="Palette-colors">{colorBoxes} </div>
-				<footer className="palette-footer">
-					{props.palette.paletteName}
-					<span className="emoji">{props.palette.emoji}</span>
-				</footer>
+				<div className={classes.colors}>{colorBoxes} </div>
+				<PaletteFooter paletteName ={props.palette.paletteName} emoji ={props.palette.emoji}/>
+				
 			</div>
 		</PaletteContext.Provider>
 	);

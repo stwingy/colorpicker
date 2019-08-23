@@ -8,15 +8,16 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import 'rc-slider/assets/index.css';
-import './Navbar.css';
-function Navbar() {
+import {useNavbarStyles} from './useAllStyles'
+// import './Navbar.css';
+function Navbar(props) {
 	const [open,setOpen] =React.useState(false)
 const [format,setFormat]=React.useState("hex")
 const navContext = React.useContext(PaletteContext)
-console.log(navContext)
+const classes = useNavbarStyles()
 function changeFormat(e){
     setFormat(e.target.value)
-	navContext.changeFormat(e.target.value);
+	props.handleChange(e.target.value);
 	setOpen(true)
 }
 // const memoizedCallback = React.useCallback(
@@ -29,24 +30,24 @@ function closeSnackbar(){
 	setOpen(false)
 }
 	return (
-		<nav className="Navbar">
-			<div className="logo">
+		<nav className={classes.Navbar}>
+			<div className={classes.logo}>
 				<Link to ="/">ReactColorPicker</Link>
 			
 			</div>
-			<div className="slider-container">
-				<span>level: {navContext.level}</span>
-				<div className="slider">
+			{props.showingAllColors && (<div>
+				<span>level: {props.level}</span>
+				<div className={classes.slider}>
 					<Slider
-						defaultValue={navContext.level}
+						defaultValue={props.level}
 						min={100}
 						max={900}
 						step={100}
-						onAfterChange={navContext.changeLevel}
+						onAfterChange={props.changeLevel}
 					/>
 				</div>
-			</div>
-			<div className="select-container">
+			</div>)}
+			<div className={classes.selectContainer}>
 				<Select value ={format} onChange ={changeFormat}>
 					<MenuItem value = 'hex'>HEX- #ffffff</MenuItem>
                     <MenuItem value = 'rgb'>RGB- rgb(255,255,255)</MenuItem>
