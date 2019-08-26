@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import chroma from 'chroma-js';
 const useMiniPaletteStyles = makeStyles({
 	root: {
@@ -62,7 +62,11 @@ const usePalleteListStyles = makeStyles({
 		display: 'flex',
 		width: '100%',
 		justifyContent: 'space-between',
-		color: 'white'
+		alignItems: 'center',
+		color: 'white',
+		'& a': {
+			color: 'white'
+		}
 	},
 	palettes: {
 		boxSizing: 'border-box',
@@ -271,35 +275,120 @@ const useNavbarStyles = makeStyles({
 	slider: {
 		display: 'inline-block',
 		width: '340px',
-        margin: '0 10px',
-        "& .rc-slider-track":{
-            backgroundColor: "transparent",
-        },
-        "& .rc-slider-rail":{
-            height:"8px"
-        },
-        "& .rc-slider-handle, .rc-slider-handle:hover, .rc-slider-handle:active, .rc-slider-handle:focus":{
-            backgroundColor: 'green',
-border:'2px solid green',
-outline:'none',
-boxShadow: 'none',
-width:'13px',
-height:'13px',
-marginTop: '-3px',
-        }
-
-    },
-    selectContainer:{
-        marginLeft: 'auto',
-        marginRight: "1em"
-    }
-    
+		margin: '0 10px',
+		'& .rc-slider-track': {
+			backgroundColor: 'transparent'
+		},
+		'& .rc-slider-rail': {
+			height: '8px'
+		},
+		'& .rc-slider-handle, .rc-slider-handle:hover, .rc-slider-handle:active, .rc-slider-handle:focus': {
+			backgroundColor: 'green',
+			border: '2px solid green',
+			outline: 'none',
+			boxShadow: 'none',
+			width: '13px',
+			height: '13px',
+			marginTop: '-3px'
+		}
+	},
+	selectContainer: {
+		marginLeft: 'auto',
+		marginRight: '1em'
+	}
 });
 
-
-
-
-
+const drawerWidth = 400;
+const useNewPalletFormStyles = makeStyles((theme) => ({
+	root: {
+		display: 'flex'
+	},
+	appBar: {
+		transition: theme.transitions.create([ 'margin', 'width' ], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen
+		})
+	},
+	appBarShift: {
+		width: `calc(100% - ${drawerWidth}px)`,
+		marginLeft: drawerWidth,
+		transition: theme.transitions.create([ 'margin', 'width' ], {
+			easing: theme.transitions.easing.easeOut,
+			duration: theme.transitions.duration.enteringScreen
+		})
+	},
+	menuButton: {
+		marginRight: theme.spacing(2)
+	},
+	hide: {
+		display: 'none'
+	},
+	drawer: {
+		width: drawerWidth,
+		flexShrink: 0
+	},
+	drawerPaper: {
+		width: drawerWidth
+	},
+	drawerHeader: {
+		display: 'flex',
+		alignItems: 'center',
+		padding: theme.spacing(0, 1),
+		...theme.mixins.toolbar,
+		justifyContent: 'flex-end'
+	},
+	content: {
+		flexGrow: 1,
+		height: "calc(100vh - 64px)",
+		padding: theme.spacing(3),
+		transition: theme.transitions.create('margin', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen
+		}),
+		marginLeft: -drawerWidth
+	},
+	contentShift: {
+		transition: theme.transitions.create('margin', {
+			easing: theme.transitions.easing.easeOut,
+			duration: theme.transitions.duration.enteringScreen
+		}),
+		marginLeft: 0
+	}
+}));
+const useDraggableStyles = makeStyles({
+	root: {
+		width: '20%',
+		height: '25%',
+		margin: '0 auto',
+		display: 'inline-block',
+		position: 'relative',
+		cursor: 'pointer',
+		marginBottom: '-3.5px',
+		"& svg": {
+			transition: "all .3s ease-in-out"
+		},
+		"&:hover svg": {
+			color: "white",
+			transform: "scale(1.5)"
+		  }
+	},
+	boxContent: {
+		position: 'absolute',
+		width: '100%',
+		padding: '10px',
+		left: '0',
+		bottom: '0',
+		color: 'rgba(0,0,0,.5)',
+		letterSpacing: '1px',
+		textTransform: 'uppercase',
+		fontSize: '.75rem',
+		display:'flex',
+		justifyContent:'space-between'
+	},
+	deleteIcon: {
+		
+	  }
+});
 
 export {
 	useMiniPaletteStyles,
@@ -307,5 +396,7 @@ export {
 	useColorBoxStyles,
 	usePalleteStyles,
 	usePalleteFooterStyles,
-	useNavbarStyles
+	useNavbarStyles,
+	useNewPalletFormStyles,
+	useDraggableStyles
 };
